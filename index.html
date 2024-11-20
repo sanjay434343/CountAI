@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CountAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+    <style>
+        /* Reset Default Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+            background-color: #ececec;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+   
+
+        header h1 {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #fff;
+           
+        }
+
+        /* File Input Button */
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-button {
+            flex: 1;  /* Ensure buttons take equal width */
+            
+           height: 45px;
+           margin-top: 20px;
+           display: grid;
+           align-items: center;
+           background: #c4ffe1;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: black;
+
+        }
+
+        .file-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .file-button:active {
+            transform: scale(0.98);
+        }
+
+        canvas {
+            background-image: url('https://cdn.pixabay.com/photo/2015/08/14/07/46/gradient-888101_960_720.jpg');
+            background-position: center;
+            background-size: cover;
+            width: 300px;
+            height: 300px;
+            margin-top: 30px;
+            border-radius: 10%;
+            position: relative;
+            bottom: 40px;
+            border: 1px solid white;
+            box-shadow: 
+                        0 0 20px rgba(0, 255, 0, 0.7), 
+                        0 0 30px rgba(0, 0, 255, 0.7);
+            animation: glow 1s ease-in-out infinite;
+        }
+        
+        /* Glowing animation */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 
+                            
+            }
+            50% {
+                box-shadow:
+                            0 0 25px rgba(0, 255, 0, 1), 
+                           
+            }
+            100% {
+                box-shadow: 
+                            0 0 30px rgba(0, 0, 255, 0.7);
+            }
+        }
+        
+
+        /* Futuristic Loader Styling */
+        .loader {
+            display: none;
+            margin-top: 20px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #00FF7F;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite, float 1.5s ease-in-out infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+            100% { transform: translate(-50%, -50%) translateY(0); }
+        }
+        
+
+       
+
+        /* Counter Styling */
+        .counter {
+            flex: 1;  /* Ensure buttons take equal width */
+    margin: 0 10px;  /* Space between buttons */
+            margin: 20px;
+            font-size: 18px;
+            background: #c4ffe1;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            color: black;
+
+        }
+
+
+        .counter:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .counter:active {
+            transform: scale(0.98);
+        }
+
+        /* Neon Effect */
+        .neon-text {
+            color: #00FF7F;
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.6), 0 0 20px rgba(0, 255, 127, 0.6);
+        }
+
+        .con {
+            width: 100%;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 300px;  /* Adjust width as needed */
+            text-align: center;
+            background-color: #00FF7F;
+            padding-left: 20px;
+            border-radius: 30px;
+            
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1 class="neon-text">CountAI</h1>
+        </header>
+
+        <div>
+            <!-- Custom file input button -->
+       
+
+            <!-- Loading Spinner -->
+            <div id="loader" class="loader"></div>
+
+            <!-- Canvas for displaying the image -->
+            <canvas id="image-canvas"></canvas>
+
+            <!-- Counter to display detected people -->
+
+            <div class="con">
+                <label for="image-input" class="file-button"><i class="fa-regular fa-image" style="color: #000;"></i></label>
+                <input type="file" id="image-input" accept="image/*" />
+            <div id="image-count" class="counter"><i class="fa-solid fa-user" style="color: #000;"></i> : 0</div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const imageCanvas = document.getElementById('image-canvas');
+        const imageCtx = imageCanvas.getContext('2d');
+        const imageCount = document.getElementById('image-count');
+        const loader = document.getElementById('loader');
+        const appContainer = document.querySelector('.app-container');
+
+        let model;
+
+        // Load PoseNet Model
+        async function loadModel() {
+            model = await posenet.load({
+                architecture: 'MobileNetV1',
+                outputStride: 16,
+                inputResolution: { width: 1280, height: 960 },
+                multiplier: 0.75,
+            });
+            console.log('PoseNet model loaded!');
+        }
+
+        // Detect people in the uploaded image
+        imageInput.addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Show loading spinner
+            loader.style.display = 'block';
+            imageCount.textContent = 'Detecting...';
+            appContainer.classList.add('blur-background');  // Apply background blur
+
+            const img = new Image();
+            img.onload = async () => {
+                imageCanvas.width = img.width;
+                imageCanvas.height = img.height;
+                imageCtx.drawImage(img, 0, 0);
+
+                // Estimate poses from the image
+                const poses = await model.estimateMultiplePoses(imageCanvas, {
+                    flipHorizontal: false,
+                    maxDetections: 100,
+                    scoreThreshold: 0.2,
+                    nmsRadius: 20,
+                });
+
+                let count = 0;
+
+                poses.forEach((pose) => {
+                    const keypoints = [
+                        'leftShoulder', 'rightShoulder', 'leftHip', 'rightHip',
+                        'leftKnee', 'rightKnee', 'leftAnkle', 'rightAnkle',
+                        'leftEar', 'rightEar', 'nose'
+                    ];
+
+                    const detectedKeypoints = keypoints.filter((keypoint) => {
+                        const kp = pose.keypoints.find(k => k.part === keypoint && k.score > 0.3);
+                        return kp;
+                    });
+
+                    if (detectedKeypoints.length >= 4) {
+                        count++;
+                        detectedKeypoints.forEach((keypoint) => {
+                            const kp = pose.keypoints.find(k => k.part === keypoint && k.score > 0.3);
+                            const { x, y } = kp.position;
+
+                            imageCtx.beginPath();
+                            imageCtx.arc(x, y, 10, 0, 2 * Math.PI);
+                            imageCtx.fillStyle = 'rgba(0, 255, 127, 0.8)';
+                            imageCtx.fill();
+
+                            imageCtx.fillStyle = '#00FF7F';
+                            imageCtx.fillText(`Person ${count}`, x - 20, y - 30);
+                        });
+                    }
+                });
+
+                const imageCount = document.getElementById('image-count');
+        imageCount.innerHTML = `<i class="fa-solid fa-user" style="color: #000000FF;"></i> : ${count} `; // Font Awesome check icon
+        loader.style.display = 'none'; // Hide loader after detection
+        appContainer.classList.remove('blur-background'); // Remove blur from background
+
+            };
+            img.src = URL.createObjectURL(file);
+        });
+
+        // Initialize PoseNet model when the page loads
+        loadModel();
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #6a11cb, #2575fc);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .app-container {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin-bottom: 20px;
+  }
+  
+  .image-section {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 20px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  canvas {
+    width: 100%;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
+  .counter {
+    margin-top: 10px;
+    font-size: 18px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
